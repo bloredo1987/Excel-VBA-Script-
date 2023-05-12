@@ -1,0 +1,91 @@
+Sub AlphabetLoop():
+    'Variable
+        'Create Variables
+        Dim lastRow As Long
+        Dim I As Long
+        Dim ticker As String
+        Dim tickerRow As Long
+        Dim yearlyChange As Double
+        Dim openingPrice As Double
+        Dim closingPrice As Double
+        Dim percentChange As Double
+        Dim totalStock As Double
+        Dim j As Long
+        
+           
+        'Find the last row in Column A
+        lastRow = Cells(Rows.Count, 1).End(xlUp).Row
+        tickerRow = 2
+        totalStock = 0
+        
+        'Loop through Column A
+        For I = 2 To lastRow
+        
+        'Ticker
+        If Cells(I, 1).Value <> Cells(I - 1, 1).Value Then
+        Cells(tickerRow, 9).Value = Cells(I, 1).Value
+        
+        'Set openingPrice,closingPrice value, yearlyChange
+        openingPrice = Cells(I, 3).Value
+            
+           
+        'Loop through the rows with the same ticker to add the total stock
+        End If
+        If Cells(I, 1).Value <> Cells(I + 1, 1) Then
+        closingPrice = Cells(I, 6).Value
+        yearlyChange = closingPrice - openingPrice
+        Cells(tickerRow, 10).Value = yearlyChange
+        percentChange = (yearlyChange / openingPrice)
+        Cells(tickerRow, 11).Value = percentChange
+        
+        
+        'Set TotalStock
+        ticker = Cells(I, 1).Value
+        totalStock = totalStock + Cells(I, 7).Value
+        Cells(tickerRow, 12).Value = totalStock
+        
+        tickerRow = tickerRow + 1
+        totalStock = 0
+        Else: totalStock = totalStock + Cells(I, 7).Value
+        
+        End If
+        Next I
+          
+        '--------------------------------------------------------------------------
+        'Conditional Formatting
+        Dim k As Long
+        For k = 2 To lastRow
+        If Cells(k, 10).Value > 0 Then
+        Cells(k, 10).Interior.ColorIndex = 4
+        Else: Cells(k, 10).Interior.ColorIndex = 3
+        End If
+        Next k
+        '---------------------------------------------------------------------------
+        'Variables for Greatest % increase, decrease, total vol
+        Dim maxPercentChange As Double
+        Dim maxPercentChangeTicker As String
+        'Greatest % Increase
+        maxPercentChange = WorksheetFunction.Max(Range("K:K"))
+        maxPercentChangeTicker = Cells(WorksheetFunction.Match(maxPercentChange, Range("K:K"), 0), 9).Value
+        Range("P2").Value = "Greatest % Increase"
+        Range("Q2").Value = maxPercentChangeTicker
+        Range("R2").Value = maxPercentChange
+        'Greatest % Decrease
+        Dim minPercentChange As Double
+        Dim minPercentChangeTicker As String
+        minPercentChange = WorksheetFunction.Min(Range("K:K"))
+        minPercentChangeTicker = Cells(WorksheetFunction.Match(minPercentChange, Range("K:K"), 0), 9).Value
+        Range("P3").Value = "Greatest % Decrease"
+        Range("Q3").Value = minPercentChangeTicker
+        Range("R3").Value = minPercentChange
+        'Greatest Total Volume
+        Dim maxTotalStock As Double
+        Dim maxTotalStockTicker As String
+        maxTotalStock = WorksheetFunction.Max(Range("L:L"))
+        maxTotalStockTicker = Cells(WorksheetFunction.Match(maxTotalStock, Range("L:L"), 0), 9).Value
+        Range("P4").Value = "Greatest Total Volume"
+        Range("Q4").Value = maxTotalStockTicker
+        Range("R4").Value = maxTotalStock
+
+
+End Sub
