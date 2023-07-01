@@ -14,3 +14,9 @@ The code updates the totalStock for the current ticker symbol. Then increments t
 It then calculates the maximum percent change, minimum percent change, and maximum total stock using built-in Excel functions. The code will then retrieve the corresponding ticker symbols for the greatest percent increase, greatest percent decrease, and greatest total volume. It writes these values in the cells P2 to R4.
 
 --Overall, this code loops through the data, calculates and records various metrics for each ticker symbol, applies conditional formatting, and determines the greatest percent change, percent decrease, and total volume.
+
+
+--Findings:
+The ticker symbol with the greatest percentage increase is "YDI" with a value of 189%.
+The ticker symbol with the greatest percentage decrease is "VNG" with a value of -89%.
+The ticker symbol with the greatest total volume is "QKN" with a value of 3,452,956,568,861.
